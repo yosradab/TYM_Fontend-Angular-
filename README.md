@@ -1,28 +1,66 @@
-# TYMAngular
+# TYM — Train Your Mind · Frontend Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.6.
+Interface web de la plateforme **Train Your Mind (TYM)** : les clients trouvent un spécialiste (coach, formateur), réservent des séances et des ateliers, paient en ligne et échangent par chat. Un back office permet à l'administrateur de piloter la plateforme.
 
-## Development server
+Projet de fin d'études (PFE, 2023). L'API Spring Boot est ici : [TYM_Backend-SpringBoot-](https://github.com/yosradab/TYM_Backend-SpringBoot-).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Fonctionnalités
 
-## Code scaffolding
+### Front office (`/user`, `/workshop`, `/Client`)
+- Inscription par rôle (client, spécialiste, admin), connexion **JWT**, code de vérification, mot de passe oublié et mise à jour
+- Espace spécialiste : profil, **portfolio**, dépôt de CV, **agenda** (FullCalendar)
+- Liste des **ateliers** et **réservation** de séances, avec confirmation
+- **Paiement Stripe** au moment de la réservation
+- Génération de **QR codes**
+- Envoi et réception d'e-mails, désinscription de la newsletter
+- Filtrage des mots inappropriés dans les messages
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Back office (`/admin`)
+- Tableau de bord avec **statistiques** (Chart.js)
+- Gestion des utilisateurs et des spécialistes : création, liste paginée, détails
+- Gestion des **réservations**, des **contrats** (liste, détails, statistiques, export **PDF** avec jsPDF) et des offres
+- **Chat** en temps réel (WebSocket) et messagerie e-mail
 
-## Build
+## Stack technique
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+| Élément | Technologie |
+|---|---|
+| Framework | Angular 15, TypeScript 4.9 |
+| UI | Angular Material, Bootstrap 5 |
+| Agenda | FullCalendar, angular-calendar, Syncfusion Calendars |
+| Graphiques | Chart.js |
+| Paiement | Stripe.js |
+| Auth | @auth0/angular-jwt, ngx-cookie-service |
+| Autres | jsPDF, angularx-qrcode, ngx-pagination, Moment.js, RxJS |
 
-## Running unit tests
+## Structure
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+src/app/
+├── frontOffice/   # Pages utilisateur (inscription, profil, agenda, paiement, ateliers…)
+├── backOffice/    # Pages admin (dashboard, stats, contrats, chat, mails…)
+├── services/      # Appels HTTP vers l'API Spring Boot + WebSocket
+├── models/        # Interfaces TypeScript (User, Booking, Workshop, Contract…)
+└── app-routing.module.ts
+```
 
-## Running end-to-end tests
+## Lancer le projet
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Prérequis : Node.js 16 ou 18, Angular CLI 15, et le [backend](https://github.com/yosradab/TYM_Backend-SpringBoot-) démarré sur `http://localhost:8075`.
 
-## Further help
+```bash
+npm install
+npm start          # ng serve → http://localhost:4200
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-# TYM_Fontend-Angular-
+Build de production :
+
+```bash
+npm run build      # sortie dans dist/
+```
+
+La configuration (clés Stripe, etc.) se trouve dans `src/environments/`.
+
+## Auteur
+
+**Yosra Dab** — Ingénieure logiciel Full Stack · [Portfolio](https://yosradab.vercel.app) · [GitHub](https://github.com/yosradab) · [LinkedIn](https://linkedin.com/in/yosradab)
